@@ -1,29 +1,6 @@
 import random
 import string
-import sqlite3
-
-connection = sqlite3.connect("users.db")
-cursor = connection.cursor()
-
-cursor.execute('''
-            CREATE TABLE IF NOT EXISTS users(
-                id INTEGER PRIMARY KEY,
-                user_id TEXT NOT NULL,
-                username TEXT NOT NULL,
-                password TEXT NOT NULL
-            )
-
-''')
-
-def insert_user(user_id, username, password):
-        cursor.execute("INSERT INTO users (user_id, username, password) VALUES (?, ?, ?)",
-                         (user_id, username, password))
-        connection.commit()
-
-def fetch_data():
-    cursor.execute("SELECT * FROM users")
-    for rows in cursor.fetchall():
-        print(rows)
+from Database import insert_user
 
 
 
@@ -55,7 +32,7 @@ class User:
 
     
     def generate_user_id(self):
-        special_characters = "!@#$%^&*()-_=+[{]}\|;:'\",<.>/?"
+        special_characters = "!@#$%^&*()-_=+[{]}\\|;:',<.>/?"
     
         # Randomly choose 3 characters
         random_chars = ''.join(random.choices(string.ascii_letters, k=3))
@@ -84,5 +61,4 @@ class User:
         insert_user(new_user.get_user_id(),new_user.get_username(),new_user.get_password())
         print("user created successfully \n\n\n")
 
-        fetch_data()
-        connection.close()
+        
