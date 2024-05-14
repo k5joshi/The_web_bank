@@ -1,3 +1,6 @@
+
+
+
 def password_validation(password, re_password):
     # Check length
     if len(password) < 10:

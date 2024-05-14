@@ -7,7 +7,7 @@ def main():
     while True:
 
         print("\n\n PRESS 1 --> to log in ")
-        print(" PRESS 2 --> to sign up ")
+        print("PRESS 2 --< to signup in the program ")    
         print(" PRESS 0 --> to exit the program \n\n")
 
         choice = input("Enter your choice: ")

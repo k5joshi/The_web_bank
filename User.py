@@ -25,6 +25,8 @@ def fetch_data():
     for rows in cursor.fetchall():
         print(rows)
 
+
+
 class User:
     
     def __init__(self,username,password):
