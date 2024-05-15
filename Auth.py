@@ -31,15 +31,28 @@ def signup():
         username = input("Enter the username: ")
         password = input("Type a strong password: ")
         re_password = input("Re-enter the password: ")
+        full_name = input("Enter your full name: ")
         phone_number = int(input("Enter your phone number: "))
         email = input("Enter your Email: ")
-        date_of_birth = input_date_of_birth
+        date_of_birth = input_date_of_birth()
 
-        if password_validation(password, re_password) and validate_phone_number(phone_number) and validate_email(email):
+        if password_validation(password, re_password) and validate_phone_number(phone_number) and validate_email(email) == True:
             # If password is valid, create a User instance and set username and password
-            new_user = User(username, password, phone_number, email, date_of_birth)
-            User.user_creation(new_user.get_username(), new_user.get_password(), new_user.get_phone_number(), new_user.get_email(), new_user.get_date_of_birth)
+
+            new_user = User(username,
+                            password,
+                            full_name ,
+                            phone_number,
+                            email,
+                            date_of_birth)
+            
+            User.user_creation(new_user.get_username(),
+                               new_user.get_password(),
+                               new_user.get_full_name() ,
+                               new_user.get_phone_number(),
+                               new_user.get_email(),
+                               new_user.get_date_of_birth())
             break
         else:
             # If password is invalid, prompt the user to try again
-            print("Password not acceptable. Please try again.")
+            print(" Please try again.")

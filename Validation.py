@@ -6,27 +6,33 @@ import datetime, re
 def password_validation(password, re_password):
     # Check length
     if len(password) < 10:
+        print("\ninvalid password")
         return False
     
     # Check for at least one uppercase letter
     if not any(char.isupper() for char in password):
+        print("\ninvalid password")
         return False
     
     # Check for at least one lowercase letter
     if not any(char.islower() for char in password):
+        print("\ninvalid password")
         return False
     
     # Check for at least one digit
     if not any(char.isdigit() for char in password):
+        print("\ninvalid password")
         return False
     
     # Check for at least one special character
     special_characters = "!@#$%^&*()-_=+[{]}\|;:'\",<.>/?"
     if not any(char in special_characters for char in password):
+        print("\ninvalid password")
         return False
     
     # Check if password matches re-entered password
     if password != re_password:
+        print("\ninvalid password")
         return False
 
     # If all conditions pass, return True
@@ -61,9 +67,10 @@ def validate_phone_number(phone_number):
     pattern = r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$'
     
     # Check if the phone number matches the pattern
-    if re.match(pattern, phone_number):
+    if re.match(pattern, str(phone_number)):
         return True
     else:
+        print("\ninvalid phone number")
         return False
     
 ## email validation starts ----- 
@@ -76,4 +83,5 @@ def validate_email(email):
     if re.match(pattern, email):
         return True
     else:
+        print("\ninvalid email address")
         return False

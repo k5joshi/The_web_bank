@@ -18,9 +18,12 @@ cursor.execute('''
 ''')
 
 def insert_user(user_id, username, password, full_name, phone_number, email, date_of_birth ):
-    cursor.execute("INSERT INTO Users_data (user_id, username, password,full_name, phone_Number, email, date_Of_Birth) VALUES (?, ?, ?)",
-                         (user_id, username, password, full_name, phone_number, email, date_of_birth))
-    connection.commit()
+    try:
+        cursor.execute("INSERT INTO Users_data (user_id, username, password,full_name, phone_Number, email, date_Of_Birth) VALUES (?, ?, ?, ?, ?,?,?)",
+                            (user_id, username, password, full_name, phone_number, email, date_of_birth))
+        connection.commit()
+    except sqlite3.IntegrityError as e:
+        print(f" error in inserting user:  {e}")
 
 def fetch_data():
     cursor.execute("SELECT * FROM Users_data")
