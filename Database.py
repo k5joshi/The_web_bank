@@ -8,14 +8,18 @@ cursor.execute('''
             CREATE TABLE IF NOT EXISTS Users_data(
                 user_id TEXT PRIMARY KEY,
                 username TEXT NOT NULL,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                full_Name TEXT NOT NULL,
+                phone_Number TEXT NOT NULL,
+                email TEXT NOT NULL,
+                date_Of_Birth DATE NOT NULL
                 )
 
 ''')
 
-def insert_user(user_id, username, password):
-    cursor.execute("INSERT INTO Users_data (user_id, username, password) VALUES (?, ?, ?)",
-                         (user_id, username, password))
+def insert_user(user_id, username, password, full_name, phone_number, email, date_of_birth ):
+    cursor.execute("INSERT INTO Users_data (user_id, username, password,full_name, phone_Number, email, date_Of_Birth) VALUES (?, ?, ?)",
+                         (user_id, username, password, full_name, phone_number, email, date_of_birth))
     connection.commit()
 
 def fetch_data():
@@ -25,17 +29,21 @@ def fetch_data():
 
 
 def check_data(username, password):
-    from Auth import login
-    cursor.execute("SELECT * FROM Users_data WHERE username = ?",(username,))
-    user = cursor.fetchone()
+    try:
+        from Auth import login
+        cursor.execute("SELECT * FROM Users_data WHERE username = ?",(username,))
+        user = cursor.fetchone()
 
-    if user:
-        stored_username = user[1]
-        stored_password = user[2]
-        if password == stored_password and username == stored_username:
-            print("login successful") 
-            login_menu(stored_username)
+        if user:
+            stored_username = user[1]
+            stored_password = user[2]
+            if password == stored_password and username == stored_username:
+                print("login successful") 
+                login_menu(stored_username)
+            else:
+                print("login failed")
+                login()
         else:
-            print("login failed")
-            login() 
-
+            print("User not found ** PLEASE REGISTER ** ") 
+    except Exception as e:
+        print(f"An error occured: {e}")
