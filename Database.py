@@ -56,27 +56,38 @@ def check_data(username, password):
             stored_username = user[1]
             stored_password = user[2]
             if password == stored_password and username == stored_username:
-                print("login successful") 
+                print("\n ********** \t\t\t login successful \t\t\t ********** \n") 
                 login_menu(stored_username)
+            elif username == stored_username and password != stored_password:
+                print("wrong password ")
+                login()
             else:
-                
-
                 print("login failed")
                 login()
         else:
             print("User not found ** PLEASE REGISTER ** ") 
     except Exception as e:
-        print(f"An error occured: {e}")
+        print(f"An error occured at checking data : {e}")
 
     finally: 
         connection.close()
 
 
-def save_balance_to_database(balance, user_key):
-    cursor.execute("INSERT INTO accounts WHERE user_key = ?",(user_key,))
-    user_account = cursor.fetchone()
+def check_account_exists_in_db(user_id):
+    try:
+        cursor.execute("SELECT * from accounts WHERE user_key = ?",(user_id,))
+        account = cursor.fetchone()
 
-    if user_account:
-        stored_user_key = user_account[0]
-        if stored_user_key == user_key:
-            print("balance need to be added")
+        if account:
+            stored_key = account[0]
+            stored_account_number = account[1]
+            if stored_key == user_id and stored_account_number == '':
+                return True
+            else:
+                print("account number already exists")
+        else:
+            print("not found the id in the system")            
+    except Exception as e:
+        print(f"database check account method {e}")
+    finally:
+        connection.close()            

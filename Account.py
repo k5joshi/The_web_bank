@@ -38,8 +38,6 @@ class Account:
 
     def set_acc_holder_balance(self, balance):
         self.__account_balance = balance
-    
-
 
     def generate_account_number(self):
         # Generate a 10-digit random number
@@ -49,5 +47,12 @@ class Account:
         return account_num
 
 
-account_1 = Account ("kartik",9720438537,"kartikjoshi842003@gmail.com",4000)
-print(account_1.get_account_number())
+
+from Database import check_account_exists_in_db
+
+def account_create(user_id):
+    
+
+    if check_account_exists_in_db() == True:
+
+        print("Account creation is in process")
