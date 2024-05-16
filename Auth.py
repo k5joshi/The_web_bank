@@ -1,18 +1,19 @@
 from User import User
-from Database import check_data
-from Main import main
 from Validation import password_validation, input_date_of_birth, validate_phone_number, validate_email
 
 def login():
     print("\nPlease enter the details to get logged in\n")
-    username = input("Enter the username: ")
-    password = input("Enter the password: ")
-    if username and password:
-        check_data(username, password)
-    else:
-        print("Empty inputs")  
-        # Assuming main() is imported from another module
+    inp_username = input("Enter the username: ")
+    inp_password = input("Enter the password: ")
+
+    # Check if either input is empty
+    if inp_username == '' or inp_password == '':
+        print("Empty inputs")
+        from Main import main  # Importing main() from the correct module
         main()
+    else:
+        from Database import check_data # Ensure pass_args is imported from the correct module
+        check_data(inp_username, inp_password)
 
 
 

@@ -89,13 +89,25 @@ class User:
     
     # create USER CREATION
     @staticmethod
-    def user_creation(username, password,full_name,phone_number, email, date_of_birth):
+    def user_creation(username,password,full_name,phone_number, email, date_of_birth):
         
         from Database import insert_user
 
-        new_user = User(username, password,full_name, phone_number, email, date_of_birth)
+        new_user = User(username,
+                        password,
+                        full_name,
+                        phone_number,
+                        email,
+                        date_of_birth)
+
+        insert_user(new_user.get_user_id(),
+                    new_user.get_username(),
+                    new_user.get_password(),
+                    new_user.get_full_name(),
+                    new_user.get_phone_number(),
+                    new_user.get_email(),
+                    new_user.get_date_of_birth())
         
-        insert_user(new_user.get_user_id(),new_user.get_username(),new_user.get_password(),new_user.get_full_name(), new_user.get_phone_number(), new_user.get_email(), new_user.get_date_of_birth())
         print("user created successfully \n\n\n")
 
         

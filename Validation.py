@@ -26,6 +26,7 @@ def password_validation(password, re_password):
     
     # Check for at least one special character
     special_characters = "!@#$%^&*()-_=+[{]}\|;:'\",<.>/?"
+    
     if not any(char in special_characters for char in password):
         print("\ninvalid password")
         return False
