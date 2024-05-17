@@ -1,6 +1,7 @@
 from Auth import login, signup
-from Account import account_create
+from Account import create_account_of_user
 from User import User
+
 def login_menu(username):
     print(f"\n\n WELCOME {username} \n\n")
 
@@ -18,7 +19,7 @@ def login_menu(username):
 
         match choice:
             case '1':
-                # account_create(User.get_user_id)
+                create_account_of_user()
                 print()
                 print("ok create")
                 pass

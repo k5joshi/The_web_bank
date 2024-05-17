@@ -18,7 +18,7 @@ class User:
     #----------------------------------- getters --------------------------------------
 
     def get_user_id(self):
-        return self.__user_id
+        return str(self.__user_id)
     
     def get_username(self):
         return self.__username
@@ -69,7 +69,8 @@ class User:
         return user_id
     
     
-    # create USER CREATION
+    # create USER CREATION AND ALSO SAVE IT TO THE DATABASE
+
     @staticmethod
     def user_creation(username,password,full_name,phone_number, email, date_of_birth):
         
@@ -92,4 +93,4 @@ class User:
         
         print("user created successfully \n\n\n")
 
-        
+

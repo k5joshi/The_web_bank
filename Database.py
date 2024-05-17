@@ -27,22 +27,11 @@ cursor.execute('''
 
 def insert_user_to_db(user_id, username, password, full_name, phone_number, email, date_of_birth ):
     try:
-        cursor.execute("INSERT INTO users (user_id,username, password,full_name, phone_Number, email, date_Of_Birth) VALUES (?, ?, ?, ?, ?,?,?)",
+        cursor.execute("INSERT INTO users (user_id,username, password,full_name, phone_Number, email, date_Of_Birth) VALUES (?, ?, ?, ?, ?, ?, ?)",
                             (user_id, username, password, full_name, phone_number, email, date_of_birth))
         connection.commit()
-    except sqlite3.IntegrityError as e:
+    except Exception as e:
         print(f" error in inserting user:  {e}")
-
-    finally:
-        connection.close()
-
-def fetch_data():
-    cursor.execute("SELECT * FROM users")
-    for rows in cursor.fetchall():
-        print(rows)
-
-
-
 
 
 def check_data_from_db(username, password):
@@ -67,10 +56,9 @@ def check_data_from_db(username, password):
         else:
             print("User not found ** PLEASE REGISTER ** ") 
     except Exception as e:
+
         print(f"An error occured at checking data : {e}")
 
-    finally: 
-        connection.close()
 
 
 def check_account_exists_in_db(user_id):
@@ -88,9 +76,6 @@ def check_account_exists_in_db(user_id):
         else:
             print("not found the id in the system")            
     except Exception as e:
-        print(f"database check account method {e}")
-    finally:
-        connection.close()            
+        print(f"database check account exists method {e}")          
 
-def get_user_details_from_db(user_id):
-    cursor.execute("SELECT full")
+    connection.close()
