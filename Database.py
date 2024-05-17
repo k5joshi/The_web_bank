@@ -25,7 +25,7 @@ cursor.execute('''
                 ''')
 
 
-def insert_user(user_id, username, password, full_name, phone_number, email, date_of_birth ):
+def insert_user_to_db(user_id, username, password, full_name, phone_number, email, date_of_birth ):
     try:
         cursor.execute("INSERT INTO users (user_id,username, password,full_name, phone_Number, email, date_Of_Birth) VALUES (?, ?, ?, ?, ?,?,?)",
                             (user_id, username, password, full_name, phone_number, email, date_of_birth))
@@ -45,7 +45,7 @@ def fetch_data():
 
 
 
-def check_data(username, password):
+def check_data_from_db(username, password):
     from Menu import login_menu                         # login_menu function imported
     from Auth import login                              # login function imported
     try:
@@ -91,3 +91,6 @@ def check_account_exists_in_db(user_id):
         print(f"database check account method {e}")
     finally:
         connection.close()            
+
+def get_user_details_from_db(user_id):
+    cursor.execute("SELECT full")

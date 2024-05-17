@@ -3,17 +3,17 @@ from Validation import password_validation, input_date_of_birth, validate_phone_
 
 def login():
     print("\nPlease enter the details to get logged in\n")
-    inp_username = input("Enter the username: ")
-    inp_password = input("Enter the password: ")
+    input_username = input("Enter the username: ")
+    input_password = input("Enter the password: ")
 
     # Check if either input is empty
-    if inp_username == '' or inp_password == '':
+    if input_username == '' or input_password == '':
         print("Empty inputs")
         from Main import main  # Importing main() from the correct module
         main()
     else:
-        from Database import check_data # Ensure pass_args is imported from the correct module
-        check_data(inp_username, inp_password)
+        from Database import check_data_from_db # Ensure pass_args is imported from the correct module
+        check_data_from_db(input_username, input_password)
 
 
 

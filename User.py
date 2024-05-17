@@ -1,6 +1,6 @@
 import random
 import string
-
+import uuid
 
 
 
@@ -65,33 +65,15 @@ class User:
 
     
     def generate_user_id(self):
-        special_characters = "!@#$%^&*()-_=+[{]}\\|;:',<.>/?"
-    
-        # Randomly choose 3 characters
-        random_chars = ''.join(random.choices(string.ascii_letters, k=3))
-        
-        # Randomly choose 1 special character
-        random_special_char = random.choice(special_characters)
-        
-        # Combine random characters and special character
-        user_id = random_chars + random_special_char
-        
-        # If the length is less than 10, add random digits to reach length 10
-        while len(user_id) < 10:
-            user_id += random.choice(string.digits)
-        
-        # Shuffle the characters to make the order random
-        user_id_list = list(user_id)
-        random.shuffle(user_id_list)
-        user_id = ''.join(user_id_list)
-        
+        user_id = uuid.uuid4()
         return user_id
+    
     
     # create USER CREATION
     @staticmethod
     def user_creation(username,password,full_name,phone_number, email, date_of_birth):
         
-        from Database import insert_user
+        from Database import insert_user_to_db
 
         new_user = User(username,
                         password,
@@ -100,7 +82,7 @@ class User:
                         email,
                         date_of_birth)
 
-        insert_user(new_user.get_user_id(),
+        insert_user_to_db(new_user.get_user_id(),
                     new_user.get_username(),
                     new_user.get_password(),
                     new_user.get_full_name(),
