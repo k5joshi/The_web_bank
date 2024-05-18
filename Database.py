@@ -17,65 +17,61 @@ cursor.execute('''
                 ''')
 cursor.execute('''
             CREATE TABLE IF NOT EXISTS accounts(
-                user_key TEXT NOT NULL,
                 account_number INTEGER PRIMARY KEY,
-                balance REAL NOT NULL,
-                FOREIGN KEY (user_key) REFERENCES users(user_id)
+                full_name TEXT NOT NULL,
+                phone_number INTEGER NOT NULL,
+                balance INTEGER NOT NULL
             )
                 ''')
 
 
+
+
+# function to insert the created user into the database 
+
 def insert_user_to_db(user_id, username, password, full_name, phone_number, email, date_of_birth ):
+    connection = sqlite3.connect("Database.db")
+    cursor = connection.cursor()
     try:
         cursor.execute("INSERT INTO users (user_id,username, password,full_name, phone_Number, email, date_Of_Birth) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                            (user_id, username, password, full_name, phone_number, email, date_of_birth))
+                            (user_id, username, password, full_name, phone_number, email, date_of_birth,))
         connection.commit()
     except Exception as e:
         print(f" error in inserting user:  {e}")
 
 
-def check_data_from_db(username, password):
-    from Menu import login_menu                         # login_menu function imported
-    from Auth import login                              # login function imported
-    try:
-        cursor.execute("SELECT * FROM users WHERE username = ?",(username,))
-        user = cursor.fetchone()
+def insert_acc_into_db(account_number, full_name, phone_number, balance):
+    connection = sqlite3.connect("Database.db")
+    cursor = connection.cursor()
 
-        if user:
-            stored_username = user[1]
-            stored_password = user[2]
-            if password == stored_password and username == stored_username:
-                print("\n ********** \t\t\t login successful \t\t\t ********** \n") 
-                login_menu(stored_username)
-            elif username == stored_username and password != stored_password:
-                print("wrong password ")
-                login()
-            else:
-                print("login failed")
-                login()
-        else:
-            print("User not found ** PLEASE REGISTER ** ") 
+    try:
+        cursor.execute("INSERT INTO accounts (account_number,full_name, phone_number,balance) VALUES (?, ?, ?, ?)",               (account_number, full_name, phone_number, balance,))
+        connection.commit()
+
+        print("account successfully created and stored in db")
     except Exception as e:
+        print(f"error in account insertion : {e}")
 
-        print(f"An error occured at checking data : {e}")
+    connection.close()
 
+def insert_only_balance_in_account(account_number, amount):
+    connection = sqlite3.connect("Database.db")
+    cursor = connection.cursor()
 
-
-def check_account_exists_in_db(user_id):
     try:
-        cursor.execute("SELECT * from accounts WHERE user_key = ?",(user_id,))
+        cursor.execute("SELECT * FROM accounts WHERE account_number =?",(account_number))
         account = cursor.fetchone()
 
         if account:
-            stored_key = account[0]
-            stored_account_number = account[1]
-            if stored_key == user_id and stored_account_number == '':
+            stored_account_num =  account[0]
+           
+            if stored_account_num == account_number:
+                account[3] = amount                 
                 return True
-            else:
-                print("account number already exists")
+            
         else:
-            print("not found the id in the system")            
+            print("amount is saved successfully")
     except Exception as e:
-        print(f"database check account exists method {e}")          
-
+        print(f"error in insert_balance_only: {e}")
+    
     connection.close()

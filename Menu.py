@@ -1,7 +1,5 @@
-from Auth import login, signup
-from Account import create_account_of_user
-from User import User
 
+from Auth import login, signup
 def login_menu(username):
     print(f"\n\n WELCOME {username} \n\n")
 
@@ -19,19 +17,26 @@ def login_menu(username):
 
         match choice:
             case '1':
-                create_account_of_user()
-                print()
-                print("ok create")
-                pass
+                from Bank_account import acc_creation
+                acc_creation()
+                print("\n\n create\n\n")
+
             case '2':
                 print("/n ok CHECK ")
                 pass
-            case '3':
+            case '3':     
+                acc_num = int(input("enter the account number: "))
+                amount = int(input("enter the amount: "))
+                from Bank_account import Bank
+                Bank.withdraw_money(acc_num, amount)
                 print("ok withdraw")
-                pass
             case '4':
+                acc_num = int(input("enter the account number: "))
+                amount = int(input("enter the amount: "))
+                from Bank_account import Bank
+                Bank.deposit_money(acc_num, amount)
                 print("ok deposit")
-                pass
+                
             case '11':
                 print("\n********** \t \tlogged out successfully\t \t ********** \n")
                 main_menu(login, signup)

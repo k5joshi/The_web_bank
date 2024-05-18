@@ -1,7 +1,5 @@
-import random
-import string
 import uuid
-
+from Database import insert_user_to_db
 
 
 class User:
@@ -71,18 +69,15 @@ class User:
     
     # create USER CREATION AND ALSO SAVE IT TO THE DATABASE
 
-    @staticmethod
     def user_creation(username,password,full_name,phone_number, email, date_of_birth):
-        
-        from Database import insert_user_to_db
-
         new_user = User(username,
                         password,
                         full_name,
                         phone_number,
                         email,
                         date_of_birth)
-
+        print("user created successfully \n\n\n")
+            
         insert_user_to_db(new_user.get_user_id(),
                     new_user.get_username(),
                     new_user.get_password(),
@@ -91,6 +86,5 @@ class User:
                     new_user.get_email(),
                     new_user.get_date_of_birth())
         
-        print("user created successfully \n\n\n")
 
 

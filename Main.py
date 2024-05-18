@@ -1,7 +1,7 @@
 from Menu import main_menu
+from Auth import login, signup
 
 def main():
-    from Auth import login, signup
     print(" \t\t\t*********** WELCOME TO THE PROJECT **********")
 
     main_menu(login, signup)
