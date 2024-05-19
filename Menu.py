@@ -31,14 +31,16 @@ def login_menu(username):
                 from Bank_account import Bank
                 acc_num = int(input("enter your account number :"))
                 amount = int(input("Enter the amount to withdraw: "))     
-
-                Bank.withdraw_money(acc_num, amount)
+                user_id = int(input("please enter your user pass key *YOUR KEY IS THE ID WHICH IS CREATED WHEN YOUR CREATED YOUR USER ACCOUNT **   :"))
+                
+                Bank.withdraw_money(user_id,acc_num, amount)
             case '4':
                 from Bank_account import Bank
                 acc_num = int(input("enter your account number :"))
-                amount = int(input("Enter the amount to deposit: "))    
+                amount = int(input("Enter the amount to deposit: "))
+                user_key = int(input("please enter your user pass key *YOUR KEY IS THE ID WHICH IS CREATED WHEN YOUR CREATED YOUR USER ACCOUNT **   :"))    
 
-                Bank.deposit_money(acc_num, amount)
+                Bank.deposit_money(user_id,acc_num, amount)
                 
             case '11':
                 print("\n********** \t \tlogged out successfully\t \t ********** \n")

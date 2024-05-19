@@ -76,8 +76,7 @@ class User:
                         phone_number,
                         email,
                         date_of_birth)
-        print("user created successfully \n\n\n")
-            
+        print(f"user created successfully \n\n\n {new_user.generate_user_id() } please save this user id for future transaction ** don't share this with anyone ** ")
         insert_user_to_db(new_user.get_user_id(),
                     new_user.get_username(),
                     new_user.get_password(),

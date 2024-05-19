@@ -16,15 +16,15 @@ def create_db_and_tables():
             date_Of_Birth DATE NOT NULL
         )
     ''')
-    
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS accounts(
             account_number INTEGER PRIMARY KEY,
             user_id TEXT NOT NULL,
             full_name TEXT NOT NULL,
             phone_number INTEGER NOT NULL,
-            balance INTEGER NOT NULL
-            FOREIGN KEY (user_id) REFRENCE users(user_id)
+            Pin INTEGER NOT NULL, 
+            balance INTEGER NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(user_id)
         )
     ''')
     
@@ -46,50 +46,17 @@ def insert_user_to_db(user_id, username, password, full_name, phone_number, emai
         connection.close()
 
 # Function to insert account into database
-def insert_acc_into_db(account_number, full_name, phone_number, balance):
+def insert_acc_into_db(account_number, full_name, phone_number, Pin, balance):
     connection = sqlite3.connect("Database.db")
     cursor = connection.cursor()
     
     try:
-        cursor.execute("INSERT INTO accounts (account_number, full_name, phone_number, balance) VALUES (?, ?, ?, ?)", 
-                       (account_number, full_name, phone_number, balance))
-        connection.commit()
+        cursor.execute("INSERT INTO accounts (account_number, full_name, phone_number, Pin, balance) VALUES (?, ?, ?, ?, ?)", 
+                       (account_number, full_name, phone_number, Pin, balance))
         print("Account successfully created and stored in DB")
+        connection.commit()
     except Exception as e:
         print(f"Error in account insertion: {e}")
-    finally:
-        connection.close()
-
-
-
-# Function to check username and password
-def check_data_from_db(username, password):
-    from Menu import login_menu  # login_menu function import
-    from Auth import login       # login function import
-    
-    connection = sqlite3.connect("Database.db")
-    cursor = connection.cursor()
-    
-    try:
-        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-        user = cursor.fetchone()
-
-        if user:
-            stored_username = user[1]
-            stored_password = user[2]
-            if password == stored_password and username == stored_username:
-                print("\n ********** \t\t\t Login successful \t\t\t ********** \n") 
-                login_menu(stored_username)
-            elif username == stored_username and password != stored_password:
-                print("Wrong password")
-                login()
-            else:
-                print("Login failed")
-                login()
-        else:
-            print("User not found ** PLEASE REGISTER **")
-    except Exception as e:
-        print(f"An error occurred while checking data: {e}")
     finally:
         connection.close()
 
@@ -151,7 +118,36 @@ def get_account_owner_id(account_number):
     finally:
         connection.close()
 
+# Function to check username and password
+def check_data_from_db(username, password):
+    from Menu import login_menu  # login_menu function import
+    from Auth import login       # login function import
+    
+    connection = sqlite3.connect("Database.db")
+    cursor = connection.cursor()
+    
+    try:
+        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+        user = cursor.fetchone()
 
+        if user:
+            stored_username = user[1]
+            stored_password = user[2]
+            if password == stored_password and username == stored_username:
+                print("\n ********** \t\t\t Login successful \t\t\t ********** \n") 
+                login_menu(stored_username)
+            elif username == stored_username and password != stored_password:
+                print("Wrong password")
+                login()
+            else:
+                print("Login failed")
+                login()
+        else:
+            print("User not found ** PLEASE REGISTER **")
+    except Exception as e:
+        print(f"An error occurred while checking data: {e}")
+    finally:
+        connection.close()
 
 # Creating database and tables
 create_db_and_tables()
