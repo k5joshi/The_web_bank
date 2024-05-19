@@ -20,9 +20,11 @@ def create_db_and_tables():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS accounts(
             account_number INTEGER PRIMARY KEY,
+            user_id TEXT NOT NULL,
             full_name TEXT NOT NULL,
             phone_number INTEGER NOT NULL,
             balance INTEGER NOT NULL
+            FOREIGN KEY (user_id) REFRENCE users(user_id)
         )
     ''')
     
@@ -116,7 +118,40 @@ def get_account_details(account_number):
         print(f"Error in getting account details: {e}")
         return None
     finally:
+        connection.close()  
+
+def get_update_account_balance(account_num, new_balance):
+    connection = sqlite3.connect("Database.db")
+    cursor = connection.cursor()
+    try:
+        cursor.execute("UPDATE accounts SET balance = ? WHERE account_number = ?", (new_balance, account_num,))
+        connection.commit()
+        print("Balance updated successfully")
+    except Exception as e:
+        print(f"Error in updating the balance in db: {e}")
+    finally:
         connection.close()
-        
+
+
+def get_account_owner_id(account_number):
+    connection = sqlite3.connect("Database.db")
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("SELECT user_id FROM accounts WHERE account_number = ?", (account_number,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]  # Return the user_id if account is found
+        else:
+            print("Account not found")
+            return None
+    except Exception as e:
+        print(f"Error in getting account owner ID: {e}")
+        return None
+    finally:
+        connection.close()
+
+
+
 # Creating database and tables
 create_db_and_tables()

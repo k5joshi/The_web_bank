@@ -19,19 +19,26 @@ def login_menu(username):
             case '1':
                 from Bank_account import acc_creation
                 acc_creation()
-                print("\n\n create\n\n")
+                
 
             case '2':
                 from Bank_account import Bank
                 acc_number = int(input("enter your account number: "))
+
+                print( f"\n\n\n BALANCE FETCHED SUCCESSFULLY \n \t\t\tThe balance of **account number : {acc_number} ** is  **Rs {Bank.get_balance_of_account(acc_number)} **\n\n")
                 
-                Bank.get_balance_of_account(acc_number)
-                print("\n\nBALANCE FETCHED SUCCESSFULLY \n\n ")
-                
-            case '3':     
-                print("ok withdraw")
+            case '3':
+                from Bank_account import Bank
+                acc_num = int(input("enter your account number :"))
+                amount = int(input("Enter the amount to withdraw: "))     
+
+                Bank.withdraw_money(acc_num, amount)
             case '4':
-                print("ok deposit")
+                from Bank_account import Bank
+                acc_num = int(input("enter your account number :"))
+                amount = int(input("Enter the amount to deposit: "))    
+
+                Bank.deposit_money(acc_num, amount)
                 
             case '11':
                 print("\n********** \t \tlogged out successfully\t \t ********** \n")

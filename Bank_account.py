@@ -40,8 +40,35 @@ class Bank:
     def get_balance_of_account(account_number):
         from Database import get_account_details
         account_details = get_account_details(account_number)
-        print( f" \t\t\tThe balance of **account number : {account_number} ** is  **Rs {account_details['balance'] } **")
         return account_details['balance']
+
+    @staticmethod
+    def deposit_money(user_id, account_num, amount):
+        from Database import get_update_account_balance, get_account_owner_id
+        owner_id = get_account_owner_id(account_num)
+        if owner_id == user_id:
+            balance = Bank.get_balance_of_account(account_num)
+            new_balance = balance + amount
+            get_update_account_balance(account_num, new_balance)
+            print(f" \n \t\t\tamount of Rs {amount} is credited to your account {account_num} final balance is {Bank.get_balance_of_account(account_num)}\n\n")
+        else:
+            print("You are not authorized to access this account.")
+        
+    @staticmethod
+    def withdraw_money(user_id, account_num, amount):
+        from Database import get_update_account_balance, get_account_owner_id
+        owner_id = get_account_owner_id(account_num)
+        if owner_id == user_id:
+            balance = Bank.get_balance_of_account(account_num)
+            if balance >= 1000 and amount <= balance - 1000 and amount >= 500:
+                new_balance = balance - amount
+                get_update_account_balance(account_num, new_balance)
+                print(f"\n \tthe amount {amount} is debited from your account {account_num} final balance is {Bank.get_balance_of_account(account_num)}\n\n")
+            else:
+                print("Please check your account balance or the withdrawal amount. Minimum withdrawal amount is Rs 500.")
+        else:
+            print("You are not authorized to access this account.")
+
 
 
 
@@ -57,7 +84,7 @@ def acc_creation():
         
         insert_acc_into_db(new_acc.get_account_number(), new_acc.get_full_name(), new_acc.get_phone_number(), new_acc.get_balance())
         
-        print(f"ACCOUNT CREATED SUCCESSFULLY!! Account Number: {new_acc.get_account_number()} of {new_acc.get_full_name()} is created in {Bank.Bank_name}")
+        print(f"\n\n ACCOUNT CREATED SUCCESSFULLY!! Account Number: {new_acc.get_account_number()} of {new_acc.get_full_name()} is created in {Bank.Bank_name}\n\n")
     else:
         print("Invalid phone number. Please try again.")
 
