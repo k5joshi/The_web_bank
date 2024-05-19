@@ -1,5 +1,6 @@
 from User import User
 from Validation import password_validation, input_date_of_birth, validate_phone_number, validate_email
+from Database import check_data_from_db
 
 def login():
     print("\nPlease enter the details to get logged in\n")
@@ -59,37 +60,4 @@ def signup():
 
 
 
-##
-# checks the password and the username is correct or not
-##
-def check_data_from_db(username, password):
-    
-    import sqlite3
-    connection = sqlite3.connect("Database.db")
-    cursor = connection.cursor()
 
-
-    from Menu import login_menu                         # login_menu function imported
-    from Auth import login                              # login function imported
-    try:
-        cursor.execute("SELECT * FROM users WHERE username = ?",(username,))
-        user = cursor.fetchone()
-
-        if user:
-            stored_username = user[1]
-            stored_password = user[2]
-            if password == stored_password and username == stored_username:
-                print("\n ********** \t\t\t login successful \t\t\t ********** \n") 
-                login_menu(stored_username)
-            elif username == stored_username and password != stored_password:
-                print("wrong password ")
-                login()
-            else:
-                print("login failed")
-                login()
-        else:
-            print("User not found ** PLEASE REGISTER ** ") 
-    except Exception as e:
-            print(f"An error 000occured at checking data : {e}")
-
-    connection.close()

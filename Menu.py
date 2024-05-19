@@ -22,19 +22,15 @@ def login_menu(username):
                 print("\n\n create\n\n")
 
             case '2':
-                print("/n ok CHECK ")
-                pass
-            case '3':     
-                acc_num = int(input("enter the account number: "))
-                amount = int(input("enter the amount: "))
                 from Bank_account import Bank
-                Bank.withdraw_money(acc_num, amount)
+                acc_number = int(input("enter your account number: "))
+                
+                Bank.get_balance_of_account(acc_number)
+                print("\n\nBALANCE FETCHED SUCCESSFULLY \n\n ")
+                
+            case '3':     
                 print("ok withdraw")
             case '4':
-                acc_num = int(input("enter the account number: "))
-                amount = int(input("enter the amount: "))
-                from Bank_account import Bank
-                Bank.deposit_money(acc_num, amount)
                 print("ok deposit")
                 
             case '11':
