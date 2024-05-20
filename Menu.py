@@ -24,23 +24,24 @@ def login_menu(username):
             case '2':
                 from Bank_account import Bank
                 acc_number = int(input("enter your account number: "))
+                pin = int(input("please enter your PIN : "))
 
-                print( f"\n\n\n BALANCE FETCHED SUCCESSFULLY \n \t\t\tThe balance of **account number : {acc_number} ** is  **Rs {Bank.get_balance_of_account(acc_number)} **\n\n")
+                print( f"\n\n\n BALANCE FETCHED SUCCESSFULLY \n \t\t\tThe balance of **account number : {acc_number} ** is  **Rs {Bank.get_balance_of_account(acc_number,pin)} **\n\n")
                 
             case '3':
                 from Bank_account import Bank
                 acc_num = int(input("enter your account number :"))
                 amount = int(input("Enter the amount to withdraw: "))     
-                user_id = int(input("please enter your user pass key *YOUR KEY IS THE ID WHICH IS CREATED WHEN YOUR CREATED YOUR USER ACCOUNT **   :"))
+                pin = int(input("please enter your PIN : "))
                 
-                Bank.withdraw_money(user_id,acc_num, amount)
+                Bank.withdraw_money(acc_num, amount,pin)
             case '4':
                 from Bank_account import Bank
                 acc_num = int(input("enter your account number :"))
                 amount = int(input("Enter the amount to deposit: "))
-                user_key = int(input("please enter your user pass key *YOUR KEY IS THE ID WHICH IS CREATED WHEN YOUR CREATED YOUR USER ACCOUNT **   :"))    
+                pin = int(input("please enter your PIN : "))
 
-                Bank.deposit_money(user_id,acc_num, amount)
+                Bank.deposit_money(acc_num, amount,pin)
                 
             case '11':
                 print("\n********** \t \tlogged out successfully\t \t ********** \n")

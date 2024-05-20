@@ -1,5 +1,5 @@
 import random
-import sqlite3
+
 
 class Bank:
     Bank_name = "THE WEB BANK"
@@ -62,28 +62,30 @@ class Bank:
     
 
     @staticmethod
-    def get_balance_of_account(account_number):
+    def get_balance_of_account(account_number, pin):
         from Database import get_account_details
-        account_details = get_account_details(account_number)
+        account_details = get_account_details(account_number, pin)
         return account_details['balance']
 
     @staticmethod
-    def deposit_money(user_id, account_num, amount):
-        from Database import get_update_account_balance, get_account_owner_id
-        owner_id = get_account_owner_id(account_num)
-        if owner_id == user_id:
-            balance = Bank.get_balance_of_account(account_num)
+    def deposit_money(account_num, amount, pin):
+        from Database import get_update_account_balance,get_account_details
+        account  = get_account_details(account_num, pin)
+
+        if account[0] == account_num:
+            balance = Bank.get_balance_of_account(account_num,pin)
             new_balance = balance + amount
-            get_update_account_balance(account_num, new_balance)
+            get_update_account_balance(account_num, new_balance,pin)
             print(f" \n \t\t\tamount of Rs {amount} is credited to your account {account_num} final balance is {Bank.get_balance_of_account(account_num)}\n\n")
         else:
             print("You are not authorized to access this account.")
         
     @staticmethod
-    def withdraw_money(user_id, account_num, amount):
-        from Database import get_update_account_balance, get_account_owner_id
-        owner_id = get_account_owner_id(account_num)
-        if owner_id == user_id:
+    def withdraw_money(account_num, amount,pin):
+        from Database import get_update_account_balance, get_account_details
+        account  = get_account_details(account_num, pin)
+
+        if account[0] == account_num:
             balance = Bank.get_balance_of_account(account_num)
             if balance >= 1000 and amount <= balance - 1000 and amount >= 500:
                 new_balance = balance - amount
@@ -106,9 +108,13 @@ def acc_creation():
     from Validation import validate_phone_number
     if validate_phone_number(phone_number):
         new_acc = Bank(full_name, phone_number,pin, initial_amount)
-        from Database import insert_acc_into_db
+
+        username = input("enter your username for the account creation: ")
+        password = input("enter your password for account creation: ")
+        from Database import insert_acc_into_db, get_user_id_of_user_from_db
+        user_id = get_user_id_of_user_from_db(username, password)
         
-        insert_acc_into_db(new_acc.get_account_number(), new_acc.get_full_name(), new_acc.get_phone_number(), new_acc.get_pin() ,new_acc.get_balance())
+        insert_acc_into_db(new_acc.get_account_number(), user_id, new_acc.get_full_name(), new_acc.get_phone_number(), new_acc.get_pin() ,new_acc.get_balance())
         
         print(f"\n\n ACCOUNT CREATED SUCCESSFULLY!! Account Number: {new_acc.get_account_number()} of {new_acc.get_full_name()} is created in {Bank.Bank_name}\n\n")
     else:
