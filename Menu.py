@@ -10,6 +10,7 @@ def login_menu(username):
         print("PRESS '2' --> to CHECK an ACCOUNT BALANCE")
         print("PRESS '3' --> to WITHDRAW FROM ACCOUNT")
         print("PRESS '4' --> to DEPOSIT MONEY in your ACCOUNT")
+        print("PRESS '5' --> to know your account number")
         print("PRESS '11' --> to LOG OUT \n")
 
         print("choose an option \n")
@@ -42,6 +43,13 @@ def login_menu(username):
                 pin = int(input("please enter your PIN : "))
 
                 Bank.deposit_money(acc_num, amount,pin)
+            case '5':
+                from Bank_account import Bank
+                
+                username = input("enter your username: ")
+                password = input("enter your password: ")
+
+                Bank.get_account_number_of_user(username, password)
                 
             case '11':
                 print("\n********** \t \tlogged out successfully\t \t ********** \n")

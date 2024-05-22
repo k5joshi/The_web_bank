@@ -1,6 +1,7 @@
 from User import User
 from Validation import password_validation, input_date_of_birth, validate_phone_number, validate_email
-from Database import check_data_from_db
+from Database import check_user_in_db
+import hashlib
 
 def login():
     print("\nPlease enter the details to get logged in\n")
@@ -10,10 +11,10 @@ def login():
     # Check if either input is empty
     if input_username == '' or input_password == '':
         print("Empty inputs")
-        from Main import main  # Importing main() from the correct module
+        from Main import main  # Importing main() from the Main module
         main()
     else:
-        check_data_from_db(input_username, input_password)
+        check_user_in_db(input_username, input_password)
 
 
 
@@ -39,7 +40,6 @@ def signup():
 
         if password_validation(password, re_password) and validate_phone_number(phone_number) and validate_email(email) == True:
             # If password is valid, create a User instance and set username and password
-
             new_user = User(username,
                             password,
                             full_name ,
@@ -60,4 +60,7 @@ def signup():
 
 
 
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
 

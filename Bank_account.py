@@ -70,9 +70,9 @@ class Bank:
     @staticmethod
     def deposit_money(account_num, amount, pin):
         from Database import get_update_account_balance,get_account_details
-        account  = get_account_details(account_num, pin)
+        user_account  = get_account_details(account_num, pin)
 
-        if account[0] == account_num:
+        if user_account["account_number"] == account_num:
             balance = Bank.get_balance_of_account(account_num,pin)
             new_balance = balance + amount
             get_update_account_balance(account_num, new_balance,pin)
@@ -83,9 +83,9 @@ class Bank:
     @staticmethod
     def withdraw_money(account_num, amount,pin):
         from Database import get_update_account_balance, get_account_details
-        account  = get_account_details(account_num, pin)
+        user_account  = get_account_details(account_num, pin)
 
-        if account[0] == account_num:
+        if user_account["account_number"] == account_num:
             balance = Bank.get_balance_of_account(account_num)
             if balance >= 1000 and amount <= balance - 1000 and amount >= 500:
                 new_balance = balance - amount
@@ -96,7 +96,15 @@ class Bank:
         else:
             print("You are not authorized to access this account.")
 
+    def get_account_number_of_user(username, password):
+        try:
+            from Database import get_user_accounts
+            account_num = get_user_accounts(username, password)
+            print(f" \n\n\nthe bank account associated with {username} is {account_num}\n\n")
+        except Exception as e:
+            print(f"error in get_Accounts_of_user {e}")
 
+        
 
 
 def acc_creation():

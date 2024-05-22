@@ -22,7 +22,7 @@ def create_db_and_tables():
             user_id TEXT NOT NULL,
             full_name TEXT NOT NULL,
             phone_number INTEGER NOT NULL,
-            pin INTEGER NOT NULL, 
+            pin TEXT NOT NULL, 
             balance INTEGER NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(user_id)
         )
@@ -84,7 +84,27 @@ def get_user_id_of_user_from_db(username, password):
         # Close the database connection
         connection.close()
 
+def get_user_accounts(username, password):
 
+    user_id_of_user = get_user_id_of_user_from_db(username, password)
+    connection = sqlite3.connect("Database.db")
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute(" SELECT * FROM accounts WHERE user_id = ? ", (user_id_of_user,))
+
+        account = cursor.fetchone()
+        if account:
+            account_number = account[0]
+            return account_number
+        else:
+            return None
+        
+    except Exception as e:
+        print(f" error in getting the account number of the user :  {e}")
+    finally:
+        connection.close()
+        
 def get_account_details(account_number, pin):
 
     connection = sqlite3.connect("Database.db")
@@ -96,7 +116,7 @@ def get_account_details(account_number, pin):
     try:
         if account:
             account_details = {
-                "account_number " : account[0],
+                "account_number" : account[0],
                 "full_name" : account[2],
                 "phone_number" :account[3],
                 "balance" : account[5]
@@ -143,7 +163,7 @@ def get_account_owner_id(account_number, pin):
         connection.close()
 
 # Function to check username and password
-def check_data_from_db(username, password):
+def check_user_in_db(username, password):
     from Menu import login_menu  # login_menu function import
     from Auth import login       # login function import
     
@@ -168,8 +188,9 @@ def check_data_from_db(username, password):
                 login()
         else:
             print("User not found ** PLEASE REGISTER **")
-    except Exception as e:
+    except sqlite3.Error as e:
         print(f"An error occurred while checking data: {e}")
+        return None
     finally:
         connection.close()
 
