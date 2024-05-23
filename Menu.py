@@ -12,6 +12,7 @@ def login_menu(username):
         print("PRESS '4' --> to DEPOSIT MONEY in your ACCOUNT")
         print("PRESS '5' --> to know your account number")
         print("PRESS '11' --> to LOG OUT \n")
+        print("PRESS '000' --> to exit ")
 
         print("choose an option \n")
         choice = input(" Enter your choice: ")
@@ -25,22 +26,22 @@ def login_menu(username):
             case '2':
                 from Bank_account import Bank
                 acc_number = int(input("enter your account number: "))
-                pin = int(input("please enter your PIN : "))
+                pin = input("please enter your PIN : ")
 
-                print( f"\n\n\n BALANCE FETCHED SUCCESSFULLY \n \t\t\tThe balance of **account number : {acc_number} ** is  **Rs {Bank.get_balance_of_account(acc_number,pin)} **\n\n")
+                print( f"\n\n\n BALANCE FETCHED SUCCESSFULLY \n \t\t\tThe balance of **account number : {acc_number} ** is  **Rs {Bank.get_balance_of_account(acc_number, pin)} **\n\n")
                 
             case '3':
                 from Bank_account import Bank
                 acc_num = int(input("enter your account number :"))
                 amount = int(input("Enter the amount to withdraw: "))     
-                pin = int(input("please enter your PIN : "))
+                pin = input("please enter your PIN : ")
                 
-                Bank.withdraw_money(acc_num, amount,pin)
+                Bank.withdraw_money(acc_num, amount, pin)
             case '4':
                 from Bank_account import Bank
                 acc_num = int(input("enter your account number :"))
                 amount = int(input("Enter the amount to deposit: "))
-                pin = int(input("please enter your PIN : "))
+                pin = input("please enter your PIN : ")
 
                 Bank.deposit_money(acc_num, amount,pin)
             case '5':
@@ -54,6 +55,10 @@ def login_menu(username):
             case '11':
                 print("\n********** \t \tlogged out successfully\t \t ********** \n")
                 main_menu(login, signup)
+
+            case '000':
+                print("cancelling the events")
+                break
             case _:
                 print("invalid input, re-enter the input")
 

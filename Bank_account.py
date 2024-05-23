@@ -76,7 +76,7 @@ class Bank:
             balance = Bank.get_balance_of_account(account_num,pin)
             new_balance = balance + amount
             get_update_account_balance(account_num, new_balance,pin)
-            print(f" \n \t\t\tamount of Rs {amount} is credited to your account {account_num} final balance is {Bank.get_balance_of_account(account_num)}\n\n")
+            print(f" \n \t\t\tamount of Rs {amount} is credited to your account {account_num} final balance is {Bank.get_balance_of_account(account_num, pin)}\n\n")
         else:
             print("You are not authorized to access this account.")
         
@@ -86,11 +86,11 @@ class Bank:
         user_account  = get_account_details(account_num, pin)
 
         if user_account["account_number"] == account_num:
-            balance = Bank.get_balance_of_account(account_num)
+            balance = Bank.get_balance_of_account(account_num,pin)
             if balance >= 1000 and amount <= balance - 1000 and amount >= 500:
                 new_balance = balance - amount
-                get_update_account_balance(account_num, new_balance)
-                print(f"\n \tthe amount {amount} is debited from your account {account_num} final balance is {Bank.get_balance_of_account(account_num)}\n\n")
+                get_update_account_balance(account_num, new_balance, pin)
+                print(f"\n \tthe amount {amount} is debited from your account {account_num} final balance is {Bank.get_balance_of_account(account_num, pin)}\n\n")
             else:
                 print("Please check your account balance or the withdrawal amount. Minimum withdrawal amount is Rs 500.")
         else:
