@@ -1,76 +1,90 @@
-
 from Auth import login, signup
-def login_menu(username):
-    print(f"\n\n WELCOME {username} \n\n")
+from rich.console import Console
+from rich.table import Table
+from rich import print
+from rich.prompt import Prompt
+console = Console()
 
+def login_menu(username):
+    console.print(f"\n\n [bold green]WELCOME {username}[/bold green] \n\n")
 
     while True:
-        
-        print("PRESS '1' --> to CREATE an ACCOUNT")
-        print("PRESS '2' --> to CHECK an ACCOUNT BALANCE")
-        print("PRESS '3' --> to WITHDRAW FROM ACCOUNT")
-        print("PRESS '4' --> to DEPOSIT MONEY in your ACCOUNT")
-        print("PRESS '5' --> to know your account number")
-        print("PRESS '11' --> to LOG OUT \n")
-        print("PRESS '000' --> to exit ")
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Option", justify="center", style="cyan", no_wrap=True)
+        table.add_column("Description", style="dim")
 
-        print("choose an option \n")
-        choice = input(" Enter your choice: ")
+        table.add_row("1", "CREATE an ACCOUNT")
+        table.add_row("2", "CHECK an ACCOUNT BALANCE")
+        table.add_row("3", "WITHDRAW FROM ACCOUNT")
+        table.add_row("4", "DEPOSIT MONEY in your ACCOUNT")
+        table.add_row("5", "Know your ACCOUNT NUMBER")
+        table.add_row("11", "LOG OUT")
+        table.add_row("000", "Exit")
+
+        console.print(table)
+        choice = Prompt.ask("[bold yellow] Enter your choice: [/bold yellow]")
 
         match choice:
             case '1':
                 from Bank_account import acc_creation
                 acc_creation()
-                
 
             case '2':
                 from Bank_account import Bank
-                acc_number = int(input("enter your account number: "))
-                pin = input("please enter your PIN : ")
+                acc_number = int(console.input("[bold cyan]Enter your account number: [/bold cyan] "))
+                pin = console.input("[bold cyan]Please enter your PIN: [/bold cyan] ")
 
-                print( f"\n\n\n BALANCE FETCHED SUCCESSFULLY \n \t\t\tThe balance of **account number : {acc_number} ** is  **Rs {Bank.get_balance_of_account(acc_number, pin)} **\n\n")
-                
+                balance = Bank.get_balance_of_account(acc_number, pin)
+                console.print(f"\n\n\n [bold green]BALANCE FETCHED SUCCESSFULLY[/bold green] \n\t\t\tThe balance of [bold]account number: {acc_number}[/bold] is [bold]Rs {balance}[/bold]\n\n")
+
             case '3':
                 from Bank_account import Bank
-                acc_num = int(input("enter your account number :"))
-                amount = int(input("Enter the amount to withdraw: "))     
-                pin = input("please enter your PIN : ")
-                
+                acc_num = int(console.input("[bold cyan]Enter your account number: [/bold cyan] "))
+                amount = int(console.input("[bold cyan]Enter the amount to withdraw: [/bold cyan] "))
+                pin = console.input("[bold cyan]Please enter your PIN: [/bold cyan] ")
+
                 Bank.withdraw_money(acc_num, amount, pin)
+
             case '4':
                 from Bank_account import Bank
-                acc_num = int(input("enter your account number :"))
-                amount = int(input("Enter the amount to deposit: "))
-                pin = input("please enter your PIN : ")
+                acc_num = int(console.input("[bold cyan]Enter your account number: [/bold cyan] "))
+                amount = int(console.input("[bold cyan]Enter the amount to deposit: [/bold cyan] "))
+                pin = console.input("[bold cyan]Please enter your PIN: [/bold cyan] ")
 
-                Bank.deposit_money(acc_num, amount,pin)
+                Bank.deposit_money(acc_num, amount, pin)
+
             case '5':
                 from Bank_account import Bank
-                
-                username = input("enter your username: ")
-                password = input("enter your password: ")
+
+                username = console.input("[bold cyan]Enter your username: [/bold cyan] ")
+                password = console.input("[bold cyan]Enter your password: [/bold cyan] ")
 
                 Bank.get_account_number_of_user(username, password)
-                
+
             case '11':
-                print("\n********** \t \tlogged out successfully\t \t ********** \n")
+                console.print("\n[bold green]********** Logged out successfully **********[/bold green]\n")
                 main_menu(login, signup)
+                break
 
             case '000':
-                print("cancelling the events")
-                break
+                console.print("[bold red]Cancelling the events[/bold red]")
+                exit()
+
             case _:
-                print("invalid input, re-enter the input")
+                console.print("[bold red]Invalid input, please re-enter the input[/bold red]")
 
-
-def main_menu(login, signup):
+def main_menu():
     while True:
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Option", justify="center", style="cyan", no_wrap=True)
+        table.add_column("Description", style="dim")
 
-        print("\n\n PRESS 1 --> to log in ")
-        print(" PRESS 2 --> to signup in the program ")    
-        print(" PRESS 0 --> to exit the program \n\n")
+        table.add_row("1", "Log in")
+        table.add_row("2", "Sign up in the program")
+        table.add_row("0", "Exit the program")
 
-        choice = input("Enter your choice: ")
+        console.print(table)
+        choice = Prompt.ask("[bold yellow]Enter your choice:[/bold yellow]")
 
         match choice:
             case '1':
@@ -78,11 +92,17 @@ def main_menu(login, signup):
 
             case '2':
                 signup()
-            
+
             case '0':
-                print(" CLOSING THE PROGRAM ")
-                break
+                console.print("[bold red]CLOSING THE PROGRAM[/bold red]")
+                exit()
+
             case _:
-                print("invalid input PLEASE RE-ENTER A VALID CHOICE **")
-        
-        
+                console.print("[bold red]Invalid input, please re-enter a valid choice[/bold red]")
+
+
+def main():
+    main_menu()
+
+if __name__ == "__main__":
+     main()
